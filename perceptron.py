@@ -82,11 +82,11 @@ class PerceptronClassifier:
                     score[etiqueta] = self.weights[etiqueta] * instancia # Multiplica el peso actual por el valor (y'')
 
                 # Toca sacar el y' (el mayor peso escalar)
-                scoreMax = np.argmax(score) # https://numpy.org/doc/stable/reference/generated/numpy.argmax.html
-
+                #scoreMax = np.argmax(score) # https://numpy.org/doc/stable/reference/generated/numpy.argmax.html
+                scoreMax = score.argMax() # No me habia dado cuenta de que tiene un metodo propio para argMax
                 if (scoreMax != etiquetaTData): # Si la predicha es difente a la real cambiar los pesos
-                    self.weights[scoreMax] -= instancia
-                    self.weights[etiquetaTData] += instancia
+                    self.weights[scoreMax] -= instancia # A la que ha predicho hay que quitarle peso
+                    self.weights[etiquetaTData] += instancia # Hay que sumarle peso a la real
 
     def classify(self, data ):
         """
