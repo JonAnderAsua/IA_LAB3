@@ -13,6 +13,10 @@
 
 
 # Perceptron implementation
+from random import random
+
+import numpy as np
+
 import util
 import pdb
 
@@ -56,7 +60,7 @@ class PerceptronClassifier:
         for iteration in range(self.max_iterations):
             print("Starting iteration ", iteration, "...")
             for i in range(len(trainingData)):#training data
-                pdb.set_trace()#esto es un break point para que puedas comprobar el formato de los datos
+                #pdb.set_trace()#esto es un break point para que puedas comprobar el formato de los datos
                 ########################################################################################
                 # 1. i es el indice de un ejemplo (un item, f(x) de un ejemplo) del conjunto de entrenamiento.
                 # 2. Asi pues, en cada vuelta de este loop se trata un solo ejemplo
@@ -68,6 +72,21 @@ class PerceptronClassifier:
                 #########################################################################################
                 "*** YOUR CODE HERE ***"
 
+                # Coger lo que se necesita
+                etiquetasGeneral = self.legalLabels # Coger las etiquetas (en general)
+                etiquetaTData = trainingLabels[i]  # Coger las etiquetas de cada instancia
+                instancia = trainingData[i] #Coger el valor de cada instancia del trainingData
+
+                score = util.Counter()
+                for etiqueta in etiquetasGeneral:
+                    score[etiqueta] = self.weights[etiqueta] * instancia # Multiplica el peso actual por el valor (y'')
+
+                # Toca sacar el y' (el mayor peso escalar)
+                scoreMax = np.argmax(score) # https://numpy.org/doc/stable/reference/generated/numpy.argmax.html
+
+                if (scoreMax != etiquetaTData): # Si la predicha es difente a la real cambiar los pesos
+                    self.weights[scoreMax] -= instancia
+                    self.weights[etiquetaTData] += instancia
 
     def classify(self, data ):
         """
