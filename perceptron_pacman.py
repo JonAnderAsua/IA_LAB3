@@ -50,4 +50,18 @@ class PerceptronClassifierPacman(PerceptronClassifier):
             print "Starting iteration ", iteration, "..."
             for i in range(len(trainingData)):
                 "*** YOUR CODE HERE ***"
-                util.raiseNotDefined()
+                # Coger lo que se necesita
+                etiquetasGeneral = self.legalLabels  # Coger las etiquetas (en general)
+                etiquetaTData = trainingLabels[i]  # Coger las etiquetas de cada instancia
+                instancia = trainingData[i]  # Coger el valor de cada instancia del trainingData
+
+                score = util.Counter()
+                for etiqueta in etiquetasGeneral:
+                    score[etiqueta] = self.weights[etiqueta] * instancia  # Multiplica el peso actual por el valor (y'')
+
+                # Toca sacar el y' (el mayor peso escalar)
+                # scoreMax = np.argmax(score) # https://numpy.org/doc/stable/reference/generated/numpy.argmax.html
+                scoreMax = score.argMax()  # No me habia dado cuenta de que tiene un metodo propio para argMax
+                if (scoreMax != etiquetaTData):  # Si la predicha es difente a la real cambiar los pesos
+                    self.weights[scoreMax] -= instancia  # A la que ha predicho hay que quitarle peso
+                    self.weights[etiquetaTData] += instancia  # Hay que sumarle peso a la real
