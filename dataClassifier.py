@@ -72,12 +72,14 @@ def enhancedFeatureExtractorDigit(datum):
 
     ##
     """
-    features =  basicFeatureExtractorDigit(datum)
+    features =  basicFeatureExtractorDigit(datum)[0]
 
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    for action in datum.getLegalActions():
+        features[action] = util.Counter(features[action])
+    return features, datum.getLegalActions()
 
-    return features
+
 
 
 
